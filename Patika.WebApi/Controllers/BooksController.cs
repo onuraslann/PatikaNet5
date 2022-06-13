@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Patika.WebApi.BookOperations.GetBooks;
+using Patika.WebApi.BookOperations.UpdateBook;
 using Patika.WebApi.DbOperation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Patika.WebApi.BookOperations.GetBooks.CreateBookCommand;
+using static Patika.WebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
 namespace Patika.WebApi.Controllers
 {
@@ -20,11 +24,11 @@ namespace Patika.WebApi.Controllers
         }
 
         [HttpGet]
-        public List<Book> GetListBook()
+        public IActionResult GetListBook()
         {
-            var bookList = _context.Books.OrderBy(x => x.Id).ToList<Book>();
-
-            return bookList;
+            GetBooksQuery getBooks = new GetBooksQuery(_context);
+            var result = getBooks.Handle();
+            return Ok(result);
         }
 
         [HttpGet("Id")]
@@ -37,37 +41,25 @@ namespace Patika.WebApi.Controllers
         }
         [HttpPost]
 
-      public IActionResult AddBook([FromBody] Book newBook)
+      public IActionResult AddBook([FromBody] CreateBookVm newBook)
         {
-            var book = _context.Books.SingleOrDefault(x => x.Title == newBook.Title);
 
-           
-            if(book != null)
-            {
-
-                return BadRequest();
-            }
-            _context.Books.Add(newBook);
-            _context.SaveChanges();
+            CreateBookCommand createBookCommand = new CreateBookCommand(_context);
+            createBookCommand.Model = newBook;
+            createBookCommand.Handle();
             return Ok();
         }
 
         [HttpPut]
 
-        public IActionResult UpdateBook([FromBody] Book newBook)
+        public IActionResult UpdateBook([FromBody] UpdateBookVm newBook)
         {
-
-            var book = _context.Books.SingleOrDefault(x=>x.Id==newBook.Id);
-            if (book == null)
-            {
-
-                return BadRequest();
-            }
-            _context.Books.Update(newBook);
-            _context.SaveChanges();
-
-
+            UpdateBookCommand updateBookCommand = new UpdateBookCommand(_context);
+            updateBookCommand.Model = newBook;
+            updateBookCommand.Handle();
             return Ok();
+
+
         }
 
         [HttpDelete]
