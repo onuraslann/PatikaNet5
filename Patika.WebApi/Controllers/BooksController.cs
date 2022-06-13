@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Patika.WebApi.BookOperations.DeleteBook;
 using Patika.WebApi.BookOperations.GetBooks;
 using Patika.WebApi.BookOperations.UpdateBook;
 using Patika.WebApi.DbOperation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Patika.WebApi.BookOperations.DeleteBook.DeleteBookCommand;
 using static Patika.WebApi.BookOperations.GetBooks.CreateBookCommand;
 using static Patika.WebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
@@ -63,15 +65,11 @@ namespace Patika.WebApi.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(KeyVm keyVm)
         {
-            var book = _context.Books.SingleOrDefault(x => x.Id == id);
-            if (book == null)
-            {
-                return BadRequest();
-            }
-            _context.Books.Remove(book);
-            _context.SaveChanges();
+            DeleteBookCommand deleteBookCommand = new DeleteBookCommand(_context);
+            deleteBookCommand.Model = keyVm;
+            deleteBookCommand.Handle();
             return Ok();
         }
     }
