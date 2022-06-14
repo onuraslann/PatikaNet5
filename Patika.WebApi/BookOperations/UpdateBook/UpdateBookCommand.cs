@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Patika.WebApi.DbOperation;
 using System;
 using System.Collections.Generic;
@@ -8,43 +9,43 @@ namespace Patika.WebApi.BookOperations.UpdateBook
 {
     public class UpdateBookCommand
     {
-        private readonly PatikaContext _context;
+        public int Id { get; set; }
         public UpdateBookVm Model { get; set; }
+        private readonly PatikaContext _context;
+
 
         public UpdateBookCommand(PatikaContext context)
         {
             _context = context;
+         
         }
 
         public void  Handle()
         {
-            var updatebook = _context.Books.SingleOrDefault(x => x.Id == Model.Id);
-            if(updatebook == null)
+            var isExistEntity = _context.Books.SingleOrDefault(x => x.Id == Id);
+            if(isExistEntity == null)
             {
 
                 throw new Exception("Id bulunamadı");
             }
-            updatebook = new Book();
-            updatebook.Title = Model.Title;
-            updatebook.PageCount = Model.PageCount;
-            updatebook.PublishDate = Model.PublishDate;
-            _context.Update(updatebook);
+
+              isExistEntity.Title = Model.Title;
+            isExistEntity.PageCount = Model.PageCount;
+         
+            _context.Update(isExistEntity);
             _context.SaveChanges();
 
         }
 
         public class UpdateBookVm
         {
-
-
-            public int Id { get; set; }
+    
             public string Title { get; set; }
 
-         
-
+        
             public int PageCount { get; set; }
 
-            public DateTime PublishDate { get; set; }
+
         }
     }
 }

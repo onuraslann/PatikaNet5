@@ -1,4 +1,6 @@
-﻿using Patika.WebApi.BookOperations.GetBooks;
+﻿
+using AutoMapper;
+using Patika.WebApi.BookOperations.GetBooks;
 using Patika.WebApi.DbOperation;
 using System;
 using System.Linq;
@@ -9,22 +11,19 @@ namespace Patika.WebApi.BookOperations.GetBooks
     {
         public CreateBookVm  Model { get; set; }
         private readonly PatikaContext _context;
-
-        public CreateBookCommand(PatikaContext context)
+        private readonly IMapper _mapper;
+        public CreateBookCommand(PatikaContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public void Handle()
         {
             var createModel = _context.Books.SingleOrDefault(x => x.Title == Model.Title);
             if(createModel == null)
             {
-                createModel = new Book();
-                createModel.Title= Model.Title;
-                createModel.GenreId = Model.GenreId;
-                createModel.PublishDate = Model.PublishDate;
-
-                createModel.PageCount = Model.PageCount;
+                createModel = _mapper.Map<Book>(Model);
+                
             }
             _context.Books.Add(createModel);
             _context.SaveChanges();

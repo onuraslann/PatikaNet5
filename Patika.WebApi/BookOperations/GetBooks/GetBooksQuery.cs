@@ -1,4 +1,5 @@
-﻿using Patika.WebApi.DbOperation;
+﻿using AutoMapper;
+using Patika.WebApi.DbOperation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,27 +9,20 @@ namespace Patika.WebApi.BookOperations.GetBooks
     public class GetBooksQuery
     {
         private readonly PatikaContext _context;
-
-        public GetBooksQuery(PatikaContext context)
+        private readonly IMapper _mapper;
+        public GetBooksQuery(PatikaContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public List<BookVm> Handle()
         {
 
             var bookList = _context.Books.OrderBy(x => x.Id).ToList<Book>();
-            List<BookVm> Vm = new List<BookVm>();
-            foreach (var item in bookList)
-            {
-                Vm.Add(new BookVm
-                {
-                    Title=item.Title,
-                     PageCount=item.PageCount,
-                      PublishDate=item.PublishDate.Date.ToString("dd-MM-yyyy")
-                    
-                });
-            }
+            List<BookVm> Vm =_mapper.Map<List<BookVm>>(bookList);
+           
+            
 
             return Vm;
         }
@@ -39,7 +33,7 @@ namespace Patika.WebApi.BookOperations.GetBooks
     }
     public class BookVm
     {
-       
+        public int Id { get; set; }
 
         public string Title { get; set; }
 

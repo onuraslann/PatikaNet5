@@ -12,6 +12,7 @@ using Patika.WebApi.DbOperation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Patika.WebApi
@@ -38,6 +39,7 @@ namespace Patika.WebApi
             
             options.UseInMemoryDatabase(databaseName:"PatikaDb")
             );
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
