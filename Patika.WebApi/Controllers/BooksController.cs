@@ -51,21 +51,11 @@ namespace Patika.WebApi.Controllers
       public IActionResult AddBook([FromBody] CreateBookVm newBook)
         {
 
-            CreateBookCommand createBookCommand = new CreateBookCommand(_context,_mapper);
-            try
-            {
-                createBookCommand.Model = newBook;
-                CreateBookValidator createBookValidator = new CreateBookValidator();
-                 createBookValidator.ValidateAndThrow(createBookCommand);
-          
-
-                createBookCommand.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
+            CreateBookCommand createBookCommand = new CreateBookCommand(_context, _mapper);
+            createBookCommand.Model = newBook;
+            CreateBookValidator createBookValidator = new CreateBookValidator();
+             createBookValidator.ValidateAndThrow(createBookCommand);
+             createBookCommand.Handle();
            
             return Ok();
         }
@@ -75,20 +65,13 @@ namespace Patika.WebApi.Controllers
         public IActionResult UpdateBook([FromBody] UpdateBookVm newBook,int id)
         {
          
-            try
-            {
                 UpdateBookCommand updateBookCommand = new UpdateBookCommand(_context);
                 updateBookCommand.Model = newBook;
                 updateBookCommand.Id = id;
                 UpdateValidator validationRules = new UpdateValidator();
                 validationRules.ValidateAndThrow(updateBookCommand);
                 updateBookCommand.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
+         
           
             return Ok();
 
@@ -98,22 +81,15 @@ namespace Patika.WebApi.Controllers
         [HttpDelete]
         public IActionResult Delete(KeyVm keyVm)
         {
-            try
-            {
+            
                 DeleteBookCommand deleteBookCommand = new DeleteBookCommand(_context);
 
                 deleteBookCommand.Model = keyVm;
                 DeleteValidator deleteValidator = new DeleteValidator();
                 deleteValidator.ValidateAndThrow(deleteBookCommand);
                 deleteBookCommand.Handle();
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(ex.Message);
-            }
-         
             return Ok();
+           
         }
     }
 }

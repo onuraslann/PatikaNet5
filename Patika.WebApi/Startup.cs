@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Patika.WebApi.DbOperation;
+using Patika.WebApi.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,8 @@ namespace Patika.WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCustomExceptionMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
