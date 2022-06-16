@@ -7,6 +7,7 @@ using Patika.WebApi.BookOperations.DeleteBook;
 using Patika.WebApi.BookOperations.GetBooks;
 using Patika.WebApi.BookOperations.UpdateBook;
 using Patika.WebApi.DbOperation;
+using Patika.WebApi.Entities;
 using Patika.WebApi.FluentValidation;
 using System;
 using System.Collections.Generic;

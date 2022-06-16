@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Patika.WebApi.DbOperation;
 using Patika.WebApi.Middleware;
+using Patika.WebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace Patika.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+          
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -41,6 +42,7 @@ namespace Patika.WebApi
             options.UseInMemoryDatabase(databaseName:"PatikaDb")
             );
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddSingleton<ILoggerService, ConsoleLogger>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

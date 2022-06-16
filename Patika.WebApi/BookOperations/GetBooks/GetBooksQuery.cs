@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Patika.WebApi.DbOperation;
+using Patika.WebApi.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Patika.WebApi.BookOperations.GetBooks;
 using Patika.WebApi.DbOperation;
+using Patika.WebApi.Entities;
 using System;
 using System.Linq;
 

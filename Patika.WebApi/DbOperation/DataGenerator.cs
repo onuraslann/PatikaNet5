@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Patika.WebApi.Entities;
 using System;
 using System.Linq;
 
@@ -35,6 +36,19 @@ namespace Patika.WebApi.DbOperation
                      PublishDate = new DateTime(2021, 05, 15)
                  }
 
+                );
+                context.Genres.AddRange(new Genre
+                {
+
+                  
+                    Name = "Personal Growth"    
+                },
+                
+                new Genre
+                {
+                    Name="Science Fiction"
+                }
+                
                 );
                 context.SaveChanges();
             }
