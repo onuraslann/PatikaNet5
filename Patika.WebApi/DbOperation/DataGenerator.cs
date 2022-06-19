@@ -23,6 +23,7 @@ namespace Patika.WebApi.DbOperation
                     Id = 1,
                     Title = "Lean Startup",
                     GenreId = 1,
+                     AuthorId=2,
                     PageCount = 250,
                     PublishDate = new DateTime(2021, 05, 15)
                 },
@@ -32,6 +33,7 @@ namespace Patika.WebApi.DbOperation
                      Id = 2,
                      Title = "Herland",
                      GenreId = 2,
+                      AuthorId=1,
                      PageCount = 250,
                      PublishDate = new DateTime(2021, 05, 15)
                  }
@@ -49,6 +51,21 @@ namespace Patika.WebApi.DbOperation
                     Name="Science Fiction"
                 }
                 
+                );
+                context.Authors.AddRange(new Author
+                {
+                    Name = "Onur",
+                    Surname = "Aslan",
+                    Date = new DateTime(2021, 05, 15)
+                },
+                new Author
+
+                {
+                    Name = "Dogukan",
+                    Surname = "Kazan",
+                    Date = new DateTime(2021, 05, 15)
+                }
+
                 );
                 context.SaveChanges();
             }

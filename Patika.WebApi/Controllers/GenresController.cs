@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Patika.WebApi.DbOperation;
+using Patika.WebApi.FluentValidation;
 using Patika.WebApi.GenreOperations.CreateGenre;
 using Patika.WebApi.GenreOperations.DeleteGenre;
 using Patika.WebApi.GenreOperations.GetGenre;
@@ -35,6 +37,8 @@ namespace Patika.WebApi.Controllers
             CreateGenreCommand createGenreCommand = new CreateGenreCommand(_context, _mapper);
 
             createGenreCommand.Model = genreVm;
+            CreateGenreValidator createGenreValidator = new CreateGenreValidator();
+            createGenreValidator.ValidateAndThrow(createGenreCommand);
             createGenreCommand.Handle();
 
 
@@ -48,6 +52,8 @@ namespace Patika.WebApi.Controllers
             UpdateGenreCommand updateGenreCommand = new UpdateGenreCommand(_context);
             updateGenreCommand.Id = id;
             updateGenreCommand.Model = updateVm;
+            UpdateGenreValidator updateValidator = new UpdateGenreValidator();
+            updateValidator.ValidateAndThrow(updateGenreCommand);
             updateGenreCommand.Handle();
 
             return Ok();
@@ -59,6 +65,9 @@ namespace Patika.WebApi.Controllers
         {
             DeleteGenreCommand deleteGenreCommand = new DeleteGenreCommand(_context);
             deleteGenreCommand.Model= keyVm;
+            GenreDeleteValidator deleteValidator = new GenreDeleteValidator();
+            deleteValidator.ValidateAndThrow(deleteGenreCommand);
+
             deleteGenreCommand.Handle();
             return Ok();
 
